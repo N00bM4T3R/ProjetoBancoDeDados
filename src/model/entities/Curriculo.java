@@ -8,7 +8,7 @@ public class Curriculo {
 	private Double exp;
 	private Double prSalary;
 	
-	Departamento departamento = new Departamento(1, "explem");
+	Departamento departamento ;
 	
 	
 	

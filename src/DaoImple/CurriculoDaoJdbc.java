@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+
+
 import DB.DbException;
 import model.Dao.CurriculoDao;
 import model.entities.Curriculo;
@@ -28,42 +30,61 @@ public class CurriculoDaoJdbc implements CurriculoDao {
 
 	@Override
 	public void insert(Curriculo obj) {
-      PreparedStatement ps = null;
-      try {
-    	  ps = conn.prepareStatement("INSERT "
-					 +"INTO curriculos (Id,Name,vacancy,Exp,prSalary)"
-				     + "VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
-    	  
-    	  ps.setInt(1, obj.getId());
-    	  ps.setString(2, obj.getName());
-    	  ps.setInt(3, obj.getDepartamento().getId());
-    	  ps.setDouble(4, obj.getExp());
-    	  ps.setDouble(5, obj.getPrSalary());
-      
-    	  int rows = ps.executeUpdate();
-    	  if (rows == 0) {
-    		  throw new SQLException();
-    	  }
-    	  else {
-    		  ResultSet rs = ps.getGeneratedKeys();
-    		  if(rs.next()) {
-    			  int id = rs.getInt(1);
-    			  obj.setId(id);
-    			  
-    		  }
-    	  }
+	     PreparedStatement ps = null;
+	      try {
+	    	  ps = conn.prepareStatement("INSERT "
+						 +"INTO curriculos (Id,Name,vacancy,Exp,prSalary)"
+					     + "VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+	    	  
+	    	  ps.setInt(1, obj.getId());
+	    	  ps.setString(2, obj.getName());
+	    	  ps.setInt(3, obj.getVacancy());
+	    	  ps.setDouble(4, obj.getExp());
+	    	  ps.setDouble(5, obj.getPrSalary());
+	      
+	    	  int rows = ps.executeUpdate();
+	    	  if (rows == 0) {
+	    		  throw new SQLException();
+	    	  }
+	    	  else {
+	    		  ResultSet rs = ps.getGeneratedKeys();
+	    		  if(rs.next()) {
+	    			  int id = rs.getInt(1);
+	    			  obj.setId(id);
+	    			  
+	    		  }
+	    	  }
 
-      }
-      catch (SQLException e) {
-		throw new DbException(e.getMessage());
-	}
-	
+	      }
+	      catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
 		
-	}
+			
+		}
 
 	@Override
 	public void update(Curriculo obj) {
-		// TODO Auto-generated method stub
+      PreparedStatement ps = null;
+      
+      try {
+    	  ps = conn.prepareStatement("UPDATE curriculos\r\n"
+					+ "SET Name = ?, vacancy = ?, Exp = ?, prSalary = ?\r\n"
+					+ "WHERE Id = ?"
+					);
+    	  ps.setString(1, obj.getName());
+    	  ps.setInt(2, obj.getVacancy());
+    	  ps.setDouble(3, obj.getExp());
+    	  ps.setDouble(4, obj.getPrSalary());
+    	  ps.setInt(5, obj.getId());
+    	  
+    	  ps.execute();
+    	  
+      }
+      catch (SQLException e) {
+    	  throw new DbException(e.getMessage());
+    	  
+	}
 		
 	}
 
