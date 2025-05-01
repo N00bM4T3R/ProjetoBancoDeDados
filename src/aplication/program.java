@@ -13,13 +13,21 @@ public class program {
 		System.out.println("==========teste insert============");
 		CurriculoDaoJdbc cu = DaoFactory1.createNewCurriculo();
 	    Curriculo cu1 = new Curriculo(2, "soraya", 2,  5.0, 300.00);
-		cu.insert(cu1);
+		//cu.insert(cu1);
 		System.out.println("insert completed");
 		
-		System.out.println("==========teste update ");
+		System.out.println("==========teste update========= ");
 		cu1.setPrSalary(400.0);;
 		//cu.update(cu1);
 		System.out.println("update competed");
+		
+
+		System.out.println("==========teste delete======== ");
+		cu.deleteById(1);
+		System.out.println("delete completed");
+		
+		
+		
 	
 }
 

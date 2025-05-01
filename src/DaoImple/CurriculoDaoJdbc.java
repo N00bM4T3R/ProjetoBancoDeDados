@@ -90,7 +90,19 @@ public class CurriculoDaoJdbc implements CurriculoDao {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps =null;
+		
+		try {
+			ps = conn.prepareStatement("DELETE FROM curriculos WHERE Id = ?");
+			
+			ps.setInt(1, id);
+			ps.execute();
+			
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+			
+		}
 		
 	}
 
