@@ -39,7 +39,7 @@ public class Curriculo {
 	}
 
 	public void setName(String name) {
-		name = name;
+		this.name = name;
 	}
 
 	public int getVacancy() {

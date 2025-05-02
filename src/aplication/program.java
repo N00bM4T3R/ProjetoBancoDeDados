@@ -23,8 +23,15 @@ public class program {
 		
 
 		System.out.println("==========teste delete======== ");
-		cu.deleteById(1);
+		//cu.deleteById(1);
 		System.out.println("delete completed");
+		
+		System.out.println("==========teste findId======== ");
+		Curriculo c = new Curriculo();
+		c = cu.findById(2);
+		System.out.println(c);
+		
+		
 		
 		
 		

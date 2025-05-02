@@ -108,8 +108,42 @@ public class CurriculoDaoJdbc implements CurriculoDao {
 
 	@Override
 	public Curriculo findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement ps = null;
+		ResultSet rs;
+		
+		
+		try {
+			ps = conn.prepareStatement("SELECT curriculos.*,departamento.NameDp as DepName"
+					+ " FROM curriculos INNER JOIN departamento"
+					+ " ON curriculos.vacancy = departamento.Id"
+					+ " WHERE curriculos.Id = ?");
+			
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				Departamento dp = new Departamento();
+				dp.setId(rs.getInt("Id"));
+				dp.setNameDp(rs.getString("DepName"));
+				Curriculo cl = new Curriculo();
+				cl.setId(rs.getInt("Id"));
+				cl.setName(rs.getString("Name"));
+				cl.setExp(rs.getDouble("Exp"));
+				cl.setPrSalary(rs.getDouble("PrSalary"));
+				cl.setVacancy(rs.getInt("vacancy"));
+				return cl;				
+			}
+			return null;
+			
+			
+			
+			
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+			
+		}
+		
 	}
 
 	@Override
