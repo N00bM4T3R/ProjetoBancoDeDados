@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
-
-
 
 import DB.DbException;
 import model.Dao.CurriculoDao;
@@ -148,8 +147,36 @@ public class CurriculoDaoJdbc implements CurriculoDao {
 
 	@Override
 	public List<Curriculo> findALL() {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement ps = null;
+		ResultSet rs;
+		try {
+			ps = conn.prepareStatement("SELECT curriculos.*,departamento.NameDp as DepName\r\n"
+	    	  		+ "FROM curriculos INNER JOIN departamento\r\n"
+	    	  		+ "ON curriculos.vacancy = departamento.Id\r\n"
+	    	  		+ "ORDER BY Name");
+			
+			rs = ps.executeQuery();
+			List<Curriculo> list = new ArrayList<>();
+			
+			
+			while (rs.next()) {
+				Departamento dp = new Departamento();
+	    		 dp.setId(rs.getInt("Id"));
+	    		 dp.setNameDp(rs.getString("DepName"));
+	    		 Curriculo cl = new Curriculo();
+	    		 cl.setId(rs.getInt("Id"));
+					cl.setName(rs.getString("Name"));
+					cl.setExp(rs.getDouble("Exp"));
+					cl.setPrSalary(rs.getDouble("PrSalary"));
+					cl.setVacancy(rs.getInt("vacancy"));
+				    list.add(cl);
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package aplication;
 
-import DB.DbConnection;
+import java.util.ArrayList;
+import java.util.List;
+
 import DaoImple.CurriculoDaoJdbc;
 import model.Dao.DaoFactory1;
 import model.entities.Curriculo;
@@ -28,8 +30,14 @@ public class program {
 		
 		System.out.println("==========teste findId======== ");
 		Curriculo c = new Curriculo();
-		c = cu.findById(2);
-		System.out.println(c);
+		//c = cu.findById(2);
+		//System.out.println(c);
+		
+		System.out.println("==========teste findAll======== ");
+		cu.findALL();
+		List<Curriculo> list = cu.findALL();
+		list.forEach(System.out::println);
+		
 		
 		
 		
